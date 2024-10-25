@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+*{
+    font-family: 'Inter', sans-serif;
+}
+
+
+.bg-primary {
+    background-color: #72BF78; /* Pastel Turquoise */
+}
+
+.bg-secondary {
+    background-color: #A0D683; /* Soft Ivory */
+}
+
+.bg-tertiary {
+    background-color: #D3EE98; /* Sunset Orange */
+}
+
+.bg-quaternary {
+    background-color: #FEFF9F; /* Peach Pink */
+}
+
+.color-font{
+    color: #FEFF9F;
+}
+
