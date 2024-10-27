@@ -30,3 +30,6 @@
     color: #FEFF9F;
 }
 
+[x-cloak] {
+    display: none;
+}

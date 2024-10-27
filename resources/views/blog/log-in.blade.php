@@ -1,9 +1,16 @@
 <x-layouts.app>
 
+    @if (session('success'))
+        <x-toast.toast message="{{ session('success') }}" type="success" />
+    @elseif (session('error'))
+        <x-toast.toast message="{{ session('error') }}" type="error" />
+    @endif
+   
+
     <section class="bg-secondary h-full p-10 flex-grow flex justify-center items-center">
 
         <article class="container max-w-7xl shadow-lg mx-auto text-center flex flex-col md:flex-row">
-            <img class="object-cover rounded-l-lg w-full md:w-1/2 hidden md:block" src="{{ Vite::asset('resources/img/img_login.jpg') }}" alt="image log">
+            <img class="object-cover rounded-l-lg w-full md:w-1/2 hidden md:block" src="{{ Vite::asset('resources/img/img_login.webp') }}" alt="image log">
             <form class="bg-secondary p-6 w-full md:rounded-r-lg flex flex-col items-center" method="POST" action="{{ route('log-in') }}">
                 @csrf
                 <h2 class="text-2xl font-bold mb-4 text-center">Inicio de Sesión</h2>
@@ -26,9 +33,7 @@
                     @enderror
                 </div>
 
-                @error('password') 
-                    <span class="text-red-500 text-sm">{{ $message }}</span> 
-                @enderror
+               
     
                 <!-- Recuérdame -->
                 <div class="flex items-center mb-4 w-full">

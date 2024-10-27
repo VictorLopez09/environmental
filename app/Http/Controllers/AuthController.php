@@ -77,9 +77,9 @@ class AuthController extends Controller
         }
 
         // Si falla la autenticación
-        return back()->withErrors([
-            'email' => 'Las credenciales proporcionadas no coinciden con nuestros registros.',
-        ])->onlyInput('email');
+        return redirect()->route('log-in')->with(['error' => 'Las credenciales proporcionadas no coinciden con nuestros registros.']);
+
+        
     }
 
 

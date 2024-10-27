@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('user_answers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Relación con el usuario
-            $table->foreignId('question_id')->constrained()->onDelete('cascade'); // Relación con la pregunta
-            $table->foreignId('answer_id')->constrained()->onDelete('cascade'); // Relación con la respuesta
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // ID del usuario
+            $table->foreignId('form_id')->constrained()->onDelete('cascade'); // ID del formulario
+            $table->integer('score')->default(0); // Puntuación
             $table->timestamps();
         });
     }

@@ -5,7 +5,7 @@
 
     <div class="max-w-3xl mx-auto bg-white shadow-lg p-6">
         
-        <div class="max-w-3xl mx-auto bg-white shadow-lg p-6">
+        
 
             <h1 class="text-2xl font-bold mb-4">{{ $form->title }}</h1>
 
@@ -30,7 +30,7 @@
             @endif
         
     
-            <form action="" method="POST">
+            <form action="{{ route('administer.store', ['form' => $form->id]) }}" method="POST">
                 @csrf
         
                 @foreach ($form->questions as $question)
@@ -50,7 +50,7 @@
         
                 <button type="submit" class="btn btn-primary">Enviar</button>
             </form>
-        </div>
+        
 
         
     </div>

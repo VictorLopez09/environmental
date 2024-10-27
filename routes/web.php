@@ -4,27 +4,52 @@ use App\Models\Form;
 use App\Models\Question;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FormController;
 use App\Http\Controllers\QuestionnaireController;
 
-Route::get('/', function () {
-    return view('blog.index');
-})->name('home');
+
+Route::redirect('/', '/blog');
+
+Route::prefix('blog')->group(function () {
+    Route::view('/', 'blog.index')->name('home');
+    Route::view('/about-us', 'blog.about-us')->name('about-us');
+    Route::view('/gallery', 'blog.gallery')->name('gallery');
+    Route::view('/contacts', 'blog.contacts')->name('contacts');
+    Route::view('/what-do-we-do', 'blog.what-do-we-do')->name('what-do-we-do');
+});
+
+Route::prefix('dashboard')->group(function () {
+    Route::get('/', function () {
+        $user = Auth::user();
+        return view('dashboard.index', compact('user'));
+    })->name('dashboard');
+
+    Route::get(
+        '/questionnaire/{form}',
+        [QuestionnaireController::class, 'show']
+    )->name('administer')->middleware([RoleMiddleware::class . ':Normal']);
+
+    // Ruta POST para almacenar el cuestionario respondido
+    Route::post(
+        '/questionnaire/{form}',
+        [QuestionnaireController::class, 'store']
+    )->name('administer.store');
 
 
-Route::get('/about-us', function () {
-    return view('blog.about-us');
-})->name('about-us');
+    Route::get(
+        '/forms',
+        [QuestionnaireController::class, 'show']
+    )->name('forms');
 
 
-Route::get('/gallery', function () {
-    return view('blog.gallery');
-})->name('gallery');
+    Route::resource('/form', FormController::class);
 
 
-Route::get('/contacts', function () {
-    return view('blog.contacts');
-})->name('contacts');
+
+});
+
 
 
 Route::get('/log-in', function () {
@@ -37,33 +62,15 @@ Route::get('/register', function () {
 
 
 
-Route::get('/questionnaire/{form}', 
-    [QuestionnaireController::class, 'show']
-)->name('questionnaire.show');
-
-Route::post('/questionnaire/{form}', 
-    [QuestionnaireController::class, 'store']
-)->name('questionnaire.store');
-
-
-
-
-
-Route::get('/dashboard', function(){
-    $user = Auth::user();
-    
-    return view('dashboard.index', compact('user'));
-})->name('dashboard');
 
 
 Route::post('register', [AuthController::class, 'register']);
 
 
-Route::post('log-in',[AuthController::class, 'login']);
+Route::post('log-in', [AuthController::class, 'login']);
 
-Route::post('log-in',[AuthController::class, 'login']);
 
-Route::get('logout',[AuthController::class, 'logout']);
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 
 

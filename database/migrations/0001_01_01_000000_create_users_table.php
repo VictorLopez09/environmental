@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('email')->unique(); // Mantener email único
             $table->timestamp('email_verified_at')->nullable(); // Verificación del email
             $table->string('password'); // Contraseña
+            $table->enum('name', ['Administrator', 'Regular', 'Normal'])->default('Normal');
             $table->rememberToken();
             $table->timestamps();
         });

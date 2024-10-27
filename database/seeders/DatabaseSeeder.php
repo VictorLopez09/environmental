@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-
+        User::factory()->count(10)->create();
         // Crear 5 formularios, cada uno con preguntas y respuestas
         Form::factory(5)->create()->each(function ($form) {
             // Cada formulario tiene entre 5 y 10 preguntas
@@ -34,6 +34,6 @@ class DatabaseSeeder extends Seeder
         });
 
         // Crear respuestas de usuario como ejemplo
-        UserAnswer::factory(10)->create();
+        // UserAnswer::factory(10)->create();
     }
 }

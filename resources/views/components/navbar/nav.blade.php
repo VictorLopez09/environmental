@@ -1,4 +1,4 @@
-<nav class="bg-primary p-4 sticky top-0 z-50" x-data="{ isOpen: false }">
+<nav class="bg-primary p-4 sticky top-0 z-20" x-data="{ isOpen: false }">
     <div class="max-w-7xl mx-auto">
         <div class="flex justify-between items-center">
             <!-- Logo -->
@@ -17,26 +17,51 @@
             </div>
 
             <!-- Links de navegación para pantallas grandes -->
-            <div class="hidden lg:flex space-x-4">
+            <div class="hidden lg:flex space-x-4 items-center ">
                 <x-navbar.nav-link :route="route('home')">Inicio</x-navbar.nav-link>
-                <x-navbar.nav-link :route="route('gallery')">Galería </x-navbar.nav-link>
+                <x-navbar.nav-link :route="route('gallery')">Galería</x-navbar.nav-link>
                 <x-navbar.nav-link :route="route('about-us')">Acerca</x-navbar.nav-link>
-
-                <x-navbar.nav-link :route="route('home')">Servicios</x-navbar.nav-link>
+                <x-navbar.nav-link :route="route('what-do-we-do')">¿Qué hacemos?</x-navbar.nav-link>
                 <x-navbar.nav-link :route="route('contacts')">Contacto</x-navbar.nav-link>
-                <x-navbar.nav-link :route="route('log-in')">Iniciar sesión</x-navbar.nav-link>
-                <x-navbar.nav-link :route="route('register')">Registrarse</x-navbar.nav-link>
+
+                
+                @guest
+                    <x-navbar.nav-link :route="route('log-in')">Iniciar sesión</x-navbar.nav-link>
+                    <x-navbar.nav-link :route="route('register')">Registrarse</x-navbar.nav-link>
+                @endguest
+
+                @auth
+
+                    <x-navbar.nav-link :route="route('dashboard')">Pagina principal</x-navbar.nav-link>
+                    <x-navbar.nav-link :route="route('form.index')">Formulario</x-navbar.nav-link>
+
+                    <!-- Menú desplegable para autenticación -->
+                    <x-navbar.dropdown>
+                        <x-navbar.dropdown-link :route="route('logout')">Cerrar sesion</x-navbar.dropdown-link> <!-- Corrección aquí -->
+                    </x-navbar.dropdown>
+
+
+                @endauth
+            
 
             </div>
         </div>
 
         <!-- Menú desplegable para pantallas pequeñas -->
-        <div x-show="isOpen" class="lg:hidden">
-            <div class="flex flex-col space-y-4 mt-4">
+        <div 
+            x-show="isOpen" 
+            x-cloak
+            class="lg:hidden absolute top-full left-0 w-full bg-primary z-20 transition-transform duration-300 ease-in-out" 
+            @click.away="isOpen = false"
+        >
+            <div class="flex flex-col space-y-4 mt-4 p-4">
                 <x-navbar.nav-link :route="route('home')">Inicio</x-navbar.nav-link>
-                <x-navbar.nav-link :route="route('home')">Acerca</x-navbar.nav-link>
-                <x-navbar.nav-link :route="route('home')">Servicios</x-navbar.nav-link>
-                <x-navbar.nav-link :route="route('home')">Contacto</x-navbar.nav-link>
+                <x-navbar.nav-link :route="route('gallery')">Galería</x-navbar.nav-link>
+                <x-navbar.nav-link :route="route('about-us')">Acerca</x-navbar.nav-link>
+                <x-navbar.nav-link :route="route('contacts')">Contacto</x-navbar.nav-link>
+                <x-navbar.nav-link :route="route('what-do-we-do')">¿Qué hacemos?</x-navbar.nav-link>
+                <x-navbar.nav-link :route="route('log-in')">Iniciar sesión</x-navbar.nav-link>
+                <x-navbar.nav-link :route="route('register')">Registrarse</x-navbar.nav-link>
             </div>
         </div>
     </div>

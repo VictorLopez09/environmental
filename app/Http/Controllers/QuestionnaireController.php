@@ -21,17 +21,32 @@ class QuestionnaireController extends Controller
     {
         // Obtener las respuestas seleccionadas por el usuario
         $data = $request->all();
-
+        
+        // Inicializar puntuación
+        $score = 0;
+    
+        // Supongamos que tienes una forma de calcular la puntuación
         foreach ($data['answers'] as $questionId => $answerId) {
-            \App\Models\UserAnswer::create([
-                'user_id' => '1', // Asumiendo que el usuario está autenticado
-                'question_id' => $questionId,
-                'answer_id' => $answerId,
-            ]);
+            // Aquí puedes agregar lógica para calcular la puntuación según las respuestas
+            // Por ejemplo, si `answerId` es correcto, incrementas la puntuación
+            // $score += $this->calculateScore($questionId, $answerId); // Ejemplo
+    
+            // Si solo quieres contar respuestas correctas:
+            $isCorrect = \App\Models\Answer::isCorrect($questionId, $answerId); // Implementa esta función según tu lógica
+            if ($isCorrect) {
+                $score += 1; // Asumimos que cada respuesta correcta suma 1 punto
+            }
         }
-
+    
+        // Crear un registro en UserAnswer con el usuario y el formulario
+        \App\Models\UserAnswer::create([
+            'user_id' => '1', // Asumiendo que el usuario está autenticado
+            'form_id' => $formId,
+            'score' => $score, // Almacenar la puntuación calculada
+        ]);
+    
         // Redirigir con un mensaje de éxito
-        return redirect()->route('questionnaire.show', $formId)->with('success', 'Cuestionario contestado exitosamente');
-
+        return redirect()->route('administer', $formId)->with('success', 'Cuestionario contestado exitosamente');
     }
+    
 }

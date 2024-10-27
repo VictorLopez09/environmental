@@ -10,18 +10,13 @@ class UserAnswer extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'question_id',
-        'answer_id'
+        'user_id',  // ID del usuario
+        'form_id',  // ID del formulario
+        'score'     // Puntuación
     ];
 
-    public function question()
+    public function form()
     {
-        return $this->belongsTo(Question::class);
-    }
-
-    public function answer()
-    {
-        return $this->belongsTo(Answer::class);
+        return $this->belongsTo(Form::class); // Relación con Form
     }
 }
