@@ -3,6 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\Form;
+use App\Models\UserAnswer;
+use Illuminate\Support\Facades\Auth; // Asegúrate de importar esta clase
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -20,13 +22,24 @@ class ShowForm extends Component
 
     public function render()
     {
-        // Si el campo de búsqueda está vacío, mostrar los primeros 5 registros
+        $user = Auth::user(); // Obtener el usuario autenticado
+
+        // Obtener formularios según el campo de búsqueda
         if (empty($this->search)) {
             $forms = Form::paginate(9);
         } else {
-            // Si hay búsqueda, paginar los resultados de 10 en 10
             $forms = Form::where('title', 'like', '%' . $this->search . '%')
                 ->paginate(9);
+        }
+
+        // Agregar la calificación y el estado de completado a cada formulario
+        foreach ($forms as $form) {
+            $form->score = UserAnswer::where('user_id', $user->id)
+                ->where('form_id', $form->id)
+                ->sum('score'); // Obtener la suma de las puntuaciones
+            $form->completed = UserAnswer::where('user_id', $user->id)
+                ->where('form_id', $form->id)
+                ->exists(); // Verificar si ya completó el formulario
         }
 
         return view('livewire.show-form', ['forms' => $forms]);

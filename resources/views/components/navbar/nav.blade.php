@@ -3,8 +3,11 @@
         <div class="flex justify-between items-center">
             <!-- Logo -->
             <div class="flex items-center">
-                <a href="#" class="text-white text-lg font-semibold">Logo</a>
+                <a href="#">
+                    <img src="{{ Vite::asset('resources/img/logo.png') }}" alt="Logo" class="h-8"> <!-- Ajusta la altura según necesites -->
+                </a>
             </div>
+            
 
             <!-- Botón de hamburguesa -->
             <div class="flex lg:hidden">
@@ -22,7 +25,7 @@
                 <x-navbar.nav-link :route="route('gallery')">Galería</x-navbar.nav-link>
                 <x-navbar.nav-link :route="route('about-us')">Acerca</x-navbar.nav-link>
                 <x-navbar.nav-link :route="route('what-do-we-do')">¿Qué hacemos?</x-navbar.nav-link>
-                <x-navbar.nav-link :route="route('contacts')">Contacto</x-navbar.nav-link>
+                <!-- <x-navbar.nav-link :route="route('contacts')">Contacto</x-navbar.nav-link> -->
 
                 
                 @guest
@@ -30,19 +33,29 @@
                     <x-navbar.nav-link :route="route('register')">Registrarse</x-navbar.nav-link>
                 @endguest
 
+                
                 @auth
-
-                    <x-navbar.nav-link :route="route('dashboard')">Pagina principal</x-navbar.nav-link>
-                    <x-navbar.nav-link :route="route('form.index')">Formulario</x-navbar.nav-link>
-
-                    <!-- Menú desplegable para autenticación -->
-                    <x-navbar.dropdown>
-                        <x-navbar.dropdown-link :route="route('logout')">Cerrar sesion</x-navbar.dropdown-link> <!-- Corrección aquí -->
-                    </x-navbar.dropdown>
-
-
-                @endauth
+                <x-navbar.nav-link :route="route('dashboard')">Principal</x-navbar.nav-link>
             
+                <!-- Menú desplegable para autenticación -->
+                <x-navbar.dropdown>
+                    <x-navbar.dropdown-link :route="route('form.index')">Cuestionario</x-navbar.nav-link>
+                    <x-navbar.dropdown-link :route="route('images.index')">Compartir</x-navbar.nav-link>
+            
+                    @if(auth()->user()->name === 'Administrator')
+                        <!-- Solo visible para 'Administrator' -->
+                        <x-navbar.dropdown-link :route="route('validate.index')">Validación</x-navbar.dropdown-link>
+                    @endif
+            
+                    @if(in_array(auth()->user()->name, ['Administrator']))
+                        <!-- Visible para 'Administrator' y 'Regular' -->
+                        <x-navbar.dropdown-link :route="route('form.create')">Crear cuestionario</x-navbar.dropdown-link>
+                    @endif
+            
+                    <x-navbar.dropdown-link :route="route('logout')">Cerrar sesión</x-navbar.dropdown-link>
+                </x-navbar.dropdown>
+            @endauth
+                       
 
             </div>
         </div>
@@ -60,8 +73,29 @@
                 <x-navbar.nav-link :route="route('about-us')">Acerca</x-navbar.nav-link>
                 <x-navbar.nav-link :route="route('contacts')">Contacto</x-navbar.nav-link>
                 <x-navbar.nav-link :route="route('what-do-we-do')">¿Qué hacemos?</x-navbar.nav-link>
-                <x-navbar.nav-link :route="route('log-in')">Iniciar sesión</x-navbar.nav-link>
-                <x-navbar.nav-link :route="route('register')">Registrarse</x-navbar.nav-link>
+                
+                @guest
+                    <x-navbar.nav-link :route="route('log-in')">Iniciar sesión</x-navbar.nav-link>
+                    <x-navbar.nav-link :route="route('register')">Registrarse</x-navbar.nav-link>
+                    <x-navbar.nav-link :route="route('register')">Validación</x-navbar.nav-link>
+
+                    
+                @endguest
+
+                @auth
+                    
+                    <x-navbar.nav-link :route="route('dashboard')">Principal</x-navbar.nav-link>
+                    
+
+                    <!-- Menú desplegable para autenticación -->
+                    <x-navbar.dropdown>
+                        <x-navbar.dropdown-link :route="route('logout')">Cerrar sesion</x-navbar.dropdown-link> <!-- Corrección aquí -->
+                        <x-navbar.dropdown-link :route="route('form.index')">Formulario</x-navbar.nav-link>
+                        <x-navbar.dropdown-link :route="route('images.index')">Compartir</x-navbar.nav-link>
+                    </x-navbar.dropdown>
+
+
+                @endauth
             </div>
         </div>
     </div>

@@ -5,7 +5,7 @@
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
         </svg>
     </button>
-    <div x-show="open" x-cloak class="absolute right-0 bg-green-500 text-gray-700 rounded-lg shadow-lg z-30 w-48 divide-y divide-gray-200 mt-1" @click.away="open = false">
+    <div x-show="open" x-cloak class="absolute right-0 bg-green-500 text-gray-700 rounded-b-lg shadow-lg z-30 w-48 divide-y divide-gray-200 mt-1" @click.away="open = false">
         <div class="p-2">
             {{$slot}}
         </div>

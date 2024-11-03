@@ -3,7 +3,7 @@
     <section class="bg-cover bg-center h-96"
         style="background-image: url('{{Vite::asset('resources/img/img_banner.jpg') }}');">
         <div class="flex justify-center items-center h-full bg-black bg-opacity-40">
-            <h1 class="text-white text-4xl font-bold">Bienvenido!</h1>
+            <h1 class="text-white text-4xl font-bold">¡Bienvenid@s!</h1>
         </div>
     </section>
 
@@ -12,15 +12,20 @@
         <div class="container mx-auto text-center">
             <h2 class="text-4xl font-bold text-gray-100 mb-4">Nosotros</h2>
             <p class="mb-6">¿Quieres conocernos?</p>
-            <a href="Nosotros.html" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Leer
-                más...</a>
+            <a href="{{route('about-us')}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Leer más...
+            </a>
         </div>
     </section>
 
     <section class="py-24 bg-secondary">
         <div class="container mx-auto text-center">
             <h2 class="text-4xl font-bold text-white mb-4">Galería</h2>
-            <a href="Galeria.html" class="btn btn-primary mt-4">Saber más...</a>
+            <p class="mb-6">Mira las fotos que nuestros usuarios comparten.</p>
+            <a href="{{route('gallery')}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Saber más...
+            </a>
+
         </div>
     </section>
 
@@ -35,17 +40,20 @@
 
     <section class="py-24 bg-primary">
         <div class="container mx-auto text-center">
-            <h2 class="text-4xl font-bold text-gray-100 mb-4">Nosotros</h2>
-            <p class="mb-6">¿Quieres conocernos?</p>
-            <a href="Nosotros.html" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Leer
-                más...</a>
+            <h2 class="text-4xl font-bold text-gray-100 mb-4">¿Qué hacemos?</h2>
+            <p class="mb-6">
+                Al cuidar a las abejas, no solo ayudamos a estos pequeños insectos, sino que protegemos un eslabón vital de nuestra cadena alimentaria..
+            </p>
+            <a href="{{route('gallery')}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Saber más...
+            </a>
         </div>
     </section>
 
     <section class="py-24 bg-secondary">
         <div class="container mx-auto text-center">
-            <h2 class="text-4xl font-bold text-white mb-4">Galería</h2>
-            <a href="Galeria.html" class="btn btn-primary mt-4">Saber más...</a>
+            <h2 class="text-4xl font-bold text-white mb-4 mt-4">Nuestras redes sociales</h2>
+            
         </div>
 
         <div class="container max-w-7xl mx-auto flex flex-wrap mt-8 justify-center gap-10">

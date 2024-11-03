@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Form;
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Http\Request;
 
 class QuestionnaireController extends Controller
@@ -40,7 +42,7 @@ class QuestionnaireController extends Controller
     
         // Crear un registro en UserAnswer con el usuario y el formulario
         \App\Models\UserAnswer::create([
-            'user_id' => '1', // Asumiendo que el usuario está autenticado
+            'user_id' => Auth::user()->id, // Asumiendo que el usuario está autenticado
             'form_id' => $formId,
             'score' => $score, // Almacenar la puntuación calculada
         ]);

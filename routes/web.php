@@ -1,41 +1,52 @@
 <?php
 
-use App\Models\Form;
-use App\Models\Question;
+use App\Http\Controllers\AnswerController;
+use App\Models\Image;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\ImageController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\AssessmentController;
+use App\Http\Middleware\RoleMiddleware as Role;
 use App\Http\Controllers\QuestionnaireController;
+use App\Http\Controllers\ValidateImageController;
 
 
 Route::redirect('/', '/blog');
 
 Route::prefix('blog')->group(function () {
     Route::view('/', 'blog.index')->name('home');
+
     Route::view('/about-us', 'blog.about-us')->name('about-us');
-    Route::view('/gallery', 'blog.gallery')->name('gallery');
+
+    Route::get('/gallery', function () {
+        $images = Image::where('is_validated', true)->get();
+        return view('blog.gallery', compact('images'));
+    })->name('gallery');
+
     Route::view('/contacts', 'blog.contacts')->name('contacts');
     Route::view('/what-do-we-do', 'blog.what-do-we-do')->name('what-do-we-do');
 });
 
-Route::prefix('dashboard')->group(function () {
+Route::middleware(['auth'])->prefix('dashboard')->group(function () {
     Route::get('/', function () {
         $user = Auth::user();
         return view('dashboard.index', compact('user'));
     })->name('dashboard');
 
     Route::get(
-        '/questionnaire/{form}',
-        [QuestionnaireController::class, 'show']
-    )->name('administer')->middleware([RoleMiddleware::class . ':Normal']);
+        '/assessment/{form}',
+        [AssessmentController::class, 'show']
+    )->name('assessment');
 
     // Ruta POST para almacenar el cuestionario respondido
     Route::post(
-        '/questionnaire/{form}',
-        [QuestionnaireController::class, 'store']
-    )->name('administer.store');
+        '/assessment/{form}',
+        [AssessmentController::class, 'store']
+    )->name('assessment.store');
 
 
     Route::get(
@@ -46,8 +57,17 @@ Route::prefix('dashboard')->group(function () {
 
     Route::resource('/form', FormController::class);
 
+    Route::post('/forms/{form}/questions', [FormController::class, 'addQuestion'])->name('forms.addQuestion');
+    Route::post('/questions/{question}/answers', [FormController::class, 'addAnswer'])->name('questions.addAnswer');
 
 
+    Route::resource('/images', ImageController::class);
+
+    Route::resource('/validate', ValidateImageController::class)->middleware([Role::class . ':Administrator']);
+
+    Route::resource('/questions', QuestionController::class);
+
+    Route::resource(('/answers'), AnswerController::class);
 });
 
 
@@ -61,47 +81,8 @@ Route::get('/register', function () {
 })->name('register');
 
 
-
-
-
 Route::post('register', [AuthController::class, 'register']);
 
-
-Route::post('log-in', [AuthController::class, 'login']);
-
+Route::post('log-in', [AuthController::class, 'login'])->name('login');
 
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
-
-
-
-
-
-// Route::get('/questionnaire', function () {
-//     // $questions = Question::with('answers')->get();
-//     // return view('dashboard.questionnaire', ['questions' => $questions]);
-
-
-//     $form = Form::with('questions.answers')->findOrFail(1);
-        
-//     // Pasar el formulario a la vista
-//     return view('dashboard.questionnaire', compact('form'));
-// });
-
-
-
-
-
-
-
-/*
-Route::get('/prueba', function () {
-    return view('blog.index');
-});
-
-
-Contacts
-Gallery
-about-us.blade
-Log In
-register
-*/
